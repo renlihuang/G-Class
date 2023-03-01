@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>CSViewAdminService</AssemblyName>
+    <RootNamespace>CSViewAdminService</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\CSViewAdminService.xml</DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release</OutputPath>
+    <DocumentationFile>bin\Release\CSViewAdminService.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="Scrutor" Version="3.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSViewAdminService.AppLayer\CSViewAdminService.AppLayer.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Core\CSViewAdminService.Core.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.MediatR\CSViewAdminService.MediatR.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Repository\CSViewAdminService.Repository.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.UserManage.Abstractions\CSViewAdminService.UserManage.Abstractions.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.UserManage\CSViewAdminService.UserManage.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Utility\CSViewAdminService.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+</Project>

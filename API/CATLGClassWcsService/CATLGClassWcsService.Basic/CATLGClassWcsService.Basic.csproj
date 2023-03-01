@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="MediatRService\**" />
+    <EmbeddedResource Remove="MediatRService\**" />
+    <None Remove="MediatRService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MediatRProxyService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CATLGClassWcsService.Basic.Abstractions\CATLGClassWcsService.Basic.Abstractions.csproj" />
+    <ProjectReference Include="..\CATLGClassWcsService.Core\CATLGClassWcsService.Core.csproj" />
+    <ProjectReference Include="..\CATLGClassWcsService.Utility\CATLGClassWcsService.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

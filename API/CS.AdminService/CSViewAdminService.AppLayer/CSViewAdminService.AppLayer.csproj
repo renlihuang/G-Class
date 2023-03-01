@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\CSViewAdminService.AppLayer.xml</DocumentationFile>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release</OutputPath>
+    <DocumentationFile>bin\Release\CSViewAdminService.AppLayer.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSViewAdminService.Core\CSViewAdminService.Core.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.UserManage.Abstractions\CSViewAdminService.UserManage.Abstractions.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Utility\CSViewAdminService.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

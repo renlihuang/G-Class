@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.Repository", "CSViewAdminService.Repository\CSViewAdminService.Repository.csproj", "{71091AF1-85DF-46DA-96B3-170D9009DEDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.Utility", "CSViewAdminService.Utility\CSViewAdminService.Utility.csproj", "{2C353543-0E50-4802-BA38-8724C3C69F00}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.Core", "CSViewAdminService.Core\CSViewAdminService.Core.csproj", "{8052E999-C5E4-4B8D-BE97-637C9A17D17D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.AppLayer", "CSViewAdminService.AppLayer\CSViewAdminService.AppLayer.csproj", "{4C4CD1EC-E300-4965-B9C1-0C84EC1454C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService", "CSViewAdminService\CSViewAdminService.csproj", "{D36E1B2F-6898-4FDC-9A70-4DAA6E1C00A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "规范", "规范", "{606C404B-7A5C-4FEC-B3BC-BA4397E049C5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.MediatR", "CSViewAdminService.MediatR\CSViewAdminService.MediatR.csproj", "{C59065D5-957A-4262-8E90-3C1E40B97BF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "业务模块", "业务模块", "{A88F2BD2-CDFF-42DB-A982-712AA92BC921}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "基础模块", "基础模块", "{A2B3C65D-693D-4BE2-98E7-5501CD2A2129}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserManage", "UserManage", "{0865C1A9-C8B5-437A-A400-165F51687065}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.UserManage", "CSViewAdminService.UserManage\CSViewAdminService.UserManage.csproj", "{D1DED002-6467-4C0E-981E-BB1123E9005A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSViewAdminService.UserManage.Abstractions", "CSViewAdminService.UserManage.Abstractions\CSViewAdminService.UserManage.Abstractions.csproj", "{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71091AF1-85DF-46DA-96B3-170D9009DEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71091AF1-85DF-46DA-96B3-170D9009DEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71091AF1-85DF-46DA-96B3-170D9009DEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71091AF1-85DF-46DA-96B3-170D9009DEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C353543-0E50-4802-BA38-8724C3C69F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C353543-0E50-4802-BA38-8724C3C69F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C353543-0E50-4802-BA38-8724C3C69F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C353543-0E50-4802-BA38-8724C3C69F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8052E999-C5E4-4B8D-BE97-637C9A17D17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8052E999-C5E4-4B8D-BE97-637C9A17D17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8052E999-C5E4-4B8D-BE97-637C9A17D17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8052E999-C5E4-4B8D-BE97-637C9A17D17D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4CD1EC-E300-4965-B9C1-0C84EC1454C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4CD1EC-E300-4965-B9C1-0C84EC1454C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4CD1EC-E300-4965-B9C1-0C84EC1454C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4CD1EC-E300-4965-B9C1-0C84EC1454C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36E1B2F-6898-4FDC-9A70-4DAA6E1C00A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36E1B2F-6898-4FDC-9A70-4DAA6E1C00A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36E1B2F-6898-4FDC-9A70-4DAA6E1C00A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36E1B2F-6898-4FDC-9A70-4DAA6E1C00A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C59065D5-957A-4262-8E90-3C1E40B97BF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59065D5-957A-4262-8E90-3C1E40B97BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59065D5-957A-4262-8E90-3C1E40B97BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59065D5-957A-4262-8E90-3C1E40B97BF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1DED002-6467-4C0E-981E-BB1123E9005A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1DED002-6467-4C0E-981E-BB1123E9005A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1DED002-6467-4C0E-981E-BB1123E9005A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1DED002-6467-4C0E-981E-BB1123E9005A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A2B3C65D-693D-4BE2-98E7-5501CD2A2129} = {A88F2BD2-CDFF-42DB-A982-712AA92BC921}
+		{0865C1A9-C8B5-437A-A400-165F51687065} = {A2B3C65D-693D-4BE2-98E7-5501CD2A2129}
+		{D1DED002-6467-4C0E-981E-BB1123E9005A} = {0865C1A9-C8B5-437A-A400-165F51687065}
+		{2FF46A6B-A8E4-450A-94F8-87FC5D2FBAC4} = {0865C1A9-C8B5-437A-A400-165F51687065}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D4E41CF-D46D-4D91-B55C-B0D3CCC384E3}
+	EndGlobalSection
+EndGlobal

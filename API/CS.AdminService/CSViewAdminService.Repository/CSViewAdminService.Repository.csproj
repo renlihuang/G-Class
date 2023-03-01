@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repositories\BaseRepository\BaseRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HSJM.NPoco" Version="5.0.1.5" />
+    <PackageReference Include="HSJM.NPoco.SqlServer" Version="5.0.1.5" />
+    <PackageReference Include="MySql.Data" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSViewAdminService.Core\CSViewAdminService.Core.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.UserManage.Abstractions\CSViewAdminService.UserManage.Abstractions.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Utility\CSViewAdminService.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

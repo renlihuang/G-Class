@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="MediatRService\**" />
+    <EmbeddedResource Remove="MediatRService\**" />
+    <None Remove="MediatRService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MediatRProxyService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSViewAdminService.Basic.Abstractions\CSViewAdminService.Basic.Abstractions.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Core\CSViewAdminService.Core.csproj" />
+    <ProjectReference Include="..\CSViewAdminService.Utility\CSViewAdminService.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
