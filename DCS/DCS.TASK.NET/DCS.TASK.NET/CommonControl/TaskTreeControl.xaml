@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="DCS.TASK.NET.CommonControl.TaskTreeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Base="clr-namespace:DCS.TASK.NET.ViewModel.Base" 
+             xmlns:Convert="clr-namespace:DCS.TASK.NET.ValueConvert" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:Control="clr-namespace:DCS.TASK.NET.CommonControl" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Convert:VisibilityConvert  x:Key="vc"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <!--任务树-->
+        <TreeView x:Name="TaskTreeView"
+                              Background="{StaticResource DefaultColor}"
+                              ItemsSource="{Binding TaskTreeNodes}">
+            <TreeView.Resources>
+                <!--树节点-->
+                <HierarchicalDataTemplate ItemsSource ="{Binding Children}"
+                                          DataType="{x:Type Base:BaseTreeViewModel}" >
+                    <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center">
+                        <materialDesign:PackIcon  Kind ="{Binding StatusIcon}" 
+                                                  Foreground="{Binding StatusIconColor}"
+                                                  Width="{Binding StatusIconWidth}" Height="20" 
+                                                  VerticalAlignment ="Center" />
+                        <materialDesign:PackIcon  Kind ="{Binding NodeIcon}"
+                                                          Foreground="{Binding NodeIconColor}"
+                                                          Width="30" Height="20" 
+                                                          VerticalAlignment ="Center" />
+                        <TextBlock 
+                                         Text="{Binding Name}"
+                                         FontSize="15"
+                                         VerticalAlignment="Center" 
+                                         Margin="5,0,5,0" />
+                        <!--弹出菜单-->
+                        <Control:ToolBarControl PopupMenus="{Binding ToolButtons}" 
+                                                            Width="20" Height="20"
+                                                            Visibility="{Binding ToolBarIsVisible,Converter={StaticResource vc}}"
+                                                            Margin="10,0,0,0"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+                <Style TargetType="{x:Type TreeViewItem}"
+                                   BasedOn="{StaticResource  MaterialDesignTreeViewItem}">
+                    <Setter Property="IsExpanded" Value ="{Binding IsExpand,Mode=TwoWay}"/>
+                    <Setter Property="IsSelected" Value ="{Binding IsSelected,Mode=TwoWay}"/>
+                </Style>
+            </TreeView.Resources>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectedItemChanged">
+                    <i:InvokeCommandAction Command="{Binding TreeSelectedCommand}"
+                                     CommandParameter="{Binding ElementName=TaskTreeView, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TreeView>
+    </Grid>
+</UserControl>

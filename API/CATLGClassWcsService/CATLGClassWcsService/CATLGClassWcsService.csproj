@@ -35,8 +35,4 @@
     <ProjectReference Include="..\CATLGClassWcsService.Utility\CATLGClassWcsService.Utility.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
