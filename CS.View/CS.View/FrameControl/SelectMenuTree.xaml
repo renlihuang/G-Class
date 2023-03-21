@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="CS.View.FrameControl.SelectMenuTree"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Model="clr-namespace:CS.View.ViewModel.Base"
+             xmlns:local="clr-namespace:CS.View.FrameControl" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <TreeView 
+                 ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl }},Path=MenuItemSource}"
+                 x:Name="LeftMenuTree">
+            <!--设置资源-->
+            <TreeView.Resources>
+                <HierarchicalDataTemplate ItemsSource ="{Binding Children}" DataType="{x:Type Model:SelectMenuTreeItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--选择节点单选按钮-->
+                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                  Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=ButtonCommand}"
+                                  CommandParameter="{Binding}"
+                                  VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <materialDesign:PackIcon  Kind ="{Binding MenuIcon}" Width="20" Height="20" VerticalAlignment ="Center"  Margin="5,0,0,0" />
+                        <TextBlock Text="{Binding MenuName}" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <!---->
+                <Style BasedOn="{StaticResource MaterialDesignTreeViewItem}" TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpand,  Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+
+
+</UserControl>

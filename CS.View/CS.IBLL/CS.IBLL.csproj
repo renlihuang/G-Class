@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CS.Base\CS.Base.csproj" />
+    <ProjectReference Include="..\CS.Core\CS.Core.csproj" />
+    <ProjectReference Include="..\CS.Model\CS.Model.csproj" />
+  </ItemGroup>
+
+</Project>

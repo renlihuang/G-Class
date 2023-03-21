@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="CS.View.View.BusinessView.ManulModulePackingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--模组条码录入框-->
+        <StackPanel Orientation="Horizontal" Grid.Row ="1" Margin="20,0,0,0" >
+            <TextBlock Text="模组条码录入" Foreground="DarkSlateGray"  FontSize="12"  VerticalAlignment="Center" />
+            <TextBox  Width="180"  
+                      Text="{Binding ModuleCode, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      materialDesign:HintAssist.Hint="在此扫描录入模组条码"
+                                     VerticalAlignment="Center" Margin="5,0,0,0" Cursor="IBeam" >
+                <TextBox.InputBindings>
+                    <KeyBinding Command ="{Binding EnterKeyDownCommand}" Key="Enter"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </StackPanel>
+        <!--已经申请的套号显示-->
+        <StackPanel Orientation="Horizontal" Grid.Row ="1" HorizontalAlignment="Right" Margin="0,0,40,0" >
+            <TextBlock Text="当前已经申请套号" Foreground="DarkSlateGray"  FontSize="12"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Text="{Binding GroupCode}" Width="150"  IsReadOnly="True" materialDesign:HintAssist.Hint="当前套号"
+                  VerticalAlignment="Center" Margin="5,0,10,0" Cursor="IBeam" />
+            <Button  Margin="0,0,5,0" Command="{Binding ApplyGroupCodeCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="申请套号" Foreground="White" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Resistor" Foreground="White" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <!--已经扫描的条码的列表-->
+            <DataGrid  
+                        Background="{StaticResource DefaultBackGround}"
+                       ItemsSource ="{Binding DataGrids}" 
+                       AutoGenerateColumns="False" 
+                       CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header ="模组条码"  Binding="{Binding ModuleCode}"/>
+                    <DataGridTextColumn Header ="总成条码"  Binding="{Binding AssemblyCode}"/>
+                    <DataGridTextColumn Header ="扫描时间"  Binding="{Binding CreateTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Column ="1" Margin="10,50,10,10">
+                <!--打印条码按钮-->
+                <Button Margin="10" Command="{Binding BindGroupCodeCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="套号绑定" Foreground="White" Margin="0,0,5,0"/>
+                        <materialDesign:PackIcon Kind="Group" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+                <!--打印条码按钮-->
+                <Button Margin="10" Command="{Binding ApplyGroupCodeCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="打印条码" Foreground="White" Margin="0,0,5,0"/>
+                        <materialDesign:PackIcon Kind="Printer" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+                <!--完工清空按钮-->
+                <Button Margin="10" Command="{Binding FinishCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="完工清空" Foreground="White" Margin="0,0,5,0"/>
+                        <materialDesign:PackIcon Kind="HomeBulb" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Text="{Binding HintText}" TextWrapping="Wrap"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="5"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

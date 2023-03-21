@@ -1,0 +1,50 @@
+﻿<Window x:Class="CS.View.View.UICoreView.LoginModeSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CS.View.View.UICoreView" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Title="LoginModeSelect" Height="200" Width="250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--工具栏-->
+        <materialDesign:ColorZone materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Padding="30" Mode="PrimaryMid"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="10,5,0,0"
+                       Text ="请选择登录模式"
+                       Foreground="White"/>
+
+            <Button Grid.Column="1"
+                    Command="{Binding CloseWindowCommand}"
+                    Width="25" Height="25"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="Close" Foreground="White"/>
+            </Button>
+        </Grid>
+
+        <StackPanel Grid.Row="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Button Content="刷卡登录"
+                    Command="{Binding ScanCardLoginCommand}"
+                    Margin ="10" Cursor="Hand"/>
+            <Button Content="密码登录"
+                    Command="{Binding PasswordLoginCommand}"
+                    Margin ="10" Cursor="Hand"/>
+        </StackPanel>
+        
+    </Grid>
+</Window>

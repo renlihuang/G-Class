@@ -1,0 +1,73 @@
+﻿<Window x:Class="CS.View.View.UICoreView.SanCardLoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CS.View.View.UICoreView" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+         WindowStyle="None"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        Title="SanCardLoginWindow" Height="200" Width="350">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!--工具栏-->
+        <materialDesign:ColorZone materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                          Padding="30" Mode="PrimaryMid"/>
+        <Grid HorizontalAlignment="Right" Width="350">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="10,5,0,0"
+                       HorizontalAlignment="Center"
+                       Text ="系统登录"
+                       Foreground="White"/>
+
+            <Button Grid.Column="1"
+                    Command="{Binding CloseWindowCommand}"
+                    Width="25" Height="25"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                <materialDesign:PackIcon Kind="Close" Foreground="White"/>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row ="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height ="30"/>
+            </Grid.RowDefinitions>
+            <!--    PreviewKeyDown="keyDownText_PreviewKeyDown"
+                       PreviewTextInput="keyDownText_PreviewTextInput"  
+                       InputMethod.IsInputMethodEnabled="False"-->
+            <StackPanel 
+                    VerticalAlignment="Center">
+                <TextBox Width="250" 
+                         Name="keyDownText"
+                       CommandManager.PreviewCanExecute="keyDownText_PreviewCanExecute"
+
+                       Text="{Binding ScanText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       materialDesign:HintAssist.Hint="请刷卡登录"
+                       Focusable="True"
+                       FontSize="28" Cursor="IBeam">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key ="Enter" Command ="{Binding EnterKeyDownCommand}"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1" 
+                       FontSize="16"
+                       Text ="{Binding HintText}" 
+                       Margin ="0,0,0,0" 
+                       HorizontalAlignment="Center"/>
+        </Grid>
+        
+
+    </Grid>
+</Window>
