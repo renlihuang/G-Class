@@ -1,9 +1,14 @@
 ﻿using CS.IBLL.Business;
 using CS.Model.Business.Entiry;
 using CS.Model.Business.QueryCondition;
+using CS.Model.Entiry;
 using CS.View.Common.Enum;
+using CS.View.FrameControl;
+using CS.View.View.GClass;
 using CS.View.ViewModel.Base;
 using GalaSoft.MvvmLight.Command;
+using System;
+using System.Threading.Tasks;
 
 namespace CS.View.ViewModel.GClass
 {
@@ -25,6 +30,31 @@ namespace CS.View.ViewModel.GClass
 
             this.Init();
         }
+
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        protected override void Init()
+        {
+            base.Init();
+            OpenBatteryCommand = new RelayCommand<GCblockEntity>(SetOcvcodeMenuAsync);
+        }
+
+        private async void SetOcvcodeMenuAsync(GCblockEntity obj)
+        {
+            BaseMsgDialog baseMsgDialog = new BaseMsgDialog();
+
+            //绑定viewModel
+            baseMsgDialog.BindDataContex<OcvCodeView, OcvCodeViewModel>(new OcvCodeView(), new OcvCodeViewModel(obj));
+            //显示对话框
+            await baseMsgDialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// 打开电芯明细
+        /// </summary>
+        public RelayCommand<GCblockEntity> OpenBatteryCommand { get; private set; }
 
         /// <summary>
         /// 参数明细命令

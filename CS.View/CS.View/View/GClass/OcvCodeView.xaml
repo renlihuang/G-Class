@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="CS.View.View.GClass.OcvCodeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+           xmlns:Control="clr-namespace:CS.View.FrameControl" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             Width="200" Height="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <materialDesign:ColorZone  Padding="20" Mode="PrimaryMid" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="模组条码:" FontSize="20" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <TextBlock Text="{Binding code}" FontSize="20" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0" />
+            </StackPanel>
+
+
+            <Border Width="20" Height="20" HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Button Style="{StaticResource IconButtonStyle}" 
+                        VerticalAlignment="Center" Width="20"
+                        Command="{x:Static wpf:DialogHost.CloseDialogCommand}" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="Close" Foreground="White"/>
+                </Button>
+            </Border>
+        </Grid>
+        <DataGrid  Grid.Row="1" ItemsSource="{Binding DataGridDatas}"
+                                  CanUserAddRows="False"
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  Background="{StaticResource DefaultBackGround}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="电芯条码" Binding="{Binding ModuleCode}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

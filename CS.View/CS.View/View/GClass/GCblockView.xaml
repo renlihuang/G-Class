@@ -62,6 +62,22 @@
                             <DataGridTextColumn Header="模组条码" Binding="{Binding VirtualCode}" />
                             <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCoreCode}" />
                             <DataGridTextColumn Header="测试时间" Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
+                            <DataGridTemplateColumn Header="操作">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                            <!--编辑按钮-->
+                                            <Button  Style="{StaticResource MaterialDesignIconButton}" Margin="5,0,0,0" CommandParameter="{Binding}" ToolTip="查看明细"
+                                                     Width="20" Height="20"
+                                                   Command="{Binding RelativeSource = {RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=DataContext.OpenBatteryCommand}">
+                                                <materialDesign:PackIcon Kind="Edit" HorizontalAlignment="Center"
+                                                   Foreground="{Binding RelativeSource = {RelativeSource Mode=FindAncestor, AncestorType=Button}, Path=Foreground}" />
+                                            </Button>
+                                            
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <!--分页控件-->
