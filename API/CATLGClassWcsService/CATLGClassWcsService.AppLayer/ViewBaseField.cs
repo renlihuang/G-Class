@@ -30,8 +30,8 @@ namespace CATLGClassWcsService.AppLayer
         /// </summary>
         public DateTime? ModifyTime { get; set; }
 
-        public string CreaterName { set; get; }
+        //public string CreaterName { set; get; }
 
-        public string ModifierName { set; get; }
+        //public string ModifierName { set; get; }
     }
 }

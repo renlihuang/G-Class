@@ -1,7 +1,5 @@
 ﻿using CS.IBLL.Business;
-using CS.View.View.BusinessView;
 using CS.View.View.GClass;
-using CS.View.ViewModel.BusinessViewModel;
 using CS.View.ViewModel.GClass;
 using CS.View.ViewModel.Interface;
 using System;
@@ -13,17 +11,17 @@ using System.Windows.Controls;
 
 namespace CS.View.ViewDlg.GClassViewDlg
 {
-    public class GCblockViewDlg: IBaseModel
+    internal class OCVTESTViewDlg : IBaseModel
     {
         //当前窗口
         private UserControl _view;
 
         //当前窗口对应的viewModel
-        internal GCblockViewModel _ViewModel;
+        internal OCVTESTViewModel _ViewModel;
 
-        public GCblockViewDlg(IGCblockService paramNameService)
+        public OCVTESTViewDlg(IOCVTESTService paramNameService)
         {
-            _ViewModel = new GCblockViewModel(paramNameService);
+            _ViewModel = new OCVTESTViewModel(paramNameService);
         }
 
 
@@ -47,7 +45,7 @@ namespace CS.View.ViewDlg.GClassViewDlg
         {
             if (_view == null)
             {
-                _view = new GCblockView();
+                _view = new GCOCVTESTView();
             }
             return _view;
         }

@@ -59,8 +59,7 @@
                                   Background="{StaticResource DefaultBackGround}">
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCoreCode}" />
-                            <DataGridTextColumn Header="位置编号" Binding="{Binding LocationCode}" />
+                            <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCode}" />
                             <DataGridTextColumn Header="电芯温度" Binding="{Binding Temperature}" />
                             <DataGridTextColumn Header="电芯电压" Binding="{Binding OcvVoltage}" />
                             <DataGridTextColumn Header="测试结果" Binding="{Binding OcvResult}" />

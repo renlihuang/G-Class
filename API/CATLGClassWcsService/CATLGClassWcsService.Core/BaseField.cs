@@ -36,10 +36,10 @@ namespace CATLGClassWcsService.Core
         /// 修改时间
         /// </summary>
         public DateTime? ModifyTime { get; set; }
-        [MyComputedColumn(ComputedColumnType = MyComputedColumnTypeEnum.ComputedOnUpdate)]
-        public string CreaterName { set; get; }
+        //[MyComputedColumn(ComputedColumnType = MyComputedColumnTypeEnum.ComputedOnUpdate)]
+        //public string CreaterName { set; get; }
 
-        public string ModifierName { set; get; }
+        //public string ModifierName { set; get; }
 
     }
 }

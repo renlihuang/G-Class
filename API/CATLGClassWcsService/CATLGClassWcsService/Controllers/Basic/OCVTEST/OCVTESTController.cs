@@ -77,7 +77,7 @@ namespace  CATLGClassWcsService.Controllers
         [Route("InsertBatch")]
         [HttpPost]
         [ProducesResponseType(typeof(HttpResponseResultModel<bool>), 200)]
-        private async Task<ActionResult> InsertBatchAsync([FromBody]List<OCVTESTInsertDTO > insertDtoList)
+        public async Task<ActionResult> InsertBatchAsync([FromBody]List<OCVTESTInsertDTO > insertDtoList)
         {
             if (insertDtoList == null)
             {

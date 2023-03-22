@@ -1,7 +1,5 @@
 ﻿using CS.IBLL.Business;
-using CS.View.View.BusinessView;
 using CS.View.View.GClass;
-using CS.View.ViewModel.BusinessViewModel;
 using CS.View.ViewModel.GClass;
 using CS.View.ViewModel.Interface;
 using System;
@@ -13,17 +11,17 @@ using System.Windows.Controls;
 
 namespace CS.View.ViewDlg.GClassViewDlg
 {
-    public class GCblockViewDlg: IBaseModel
+    internal class GCGlueViewDlg : IBaseModel
     {
         //当前窗口
         private UserControl _view;
 
         //当前窗口对应的viewModel
-        internal GCblockViewModel _ViewModel;
+        internal GCGlueViewModel _ViewModel;
 
-        public GCblockViewDlg(IGCblockService paramNameService)
+        public  GCGlueViewDlg(IGCGlueService paramNameService)
         {
-            _ViewModel = new GCblockViewModel(paramNameService);
+            _ViewModel = new  GCGlueViewModel(paramNameService);
         }
 
 
@@ -47,7 +45,7 @@ namespace CS.View.ViewDlg.GClassViewDlg
         {
             if (_view == null)
             {
-                _view = new GCblockView();
+                _view = new  GCGlueView();
             }
             return _view;
         }

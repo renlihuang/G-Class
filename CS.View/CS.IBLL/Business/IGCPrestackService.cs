@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CS.IBLL.Business
 {
-    public interface IGCblockService
+    public interface IGCPrestackService
     {
         /// <summary>
         /// 查询数据
@@ -18,14 +18,14 @@ namespace CS.IBLL.Business
         /// <param name="pageSize"></param>
         /// <param name="condition"></param>
         /// <returns></returns>
-        Task<QueryPagedResponseModel<GCblockEntity>> GetGCblockAsync(int pageIndex, int pageSize, GCblockCondition condition);
+        Task<QueryPagedResponseModel<GCPrestackEntity>> GetGCPrestackAsync(int pageIndex, int pageSize, GCPrestackCondition condition);
 
         /// <summary>
         /// 添加参数名
         /// </summary>
         /// <param name="nameEntiry"></param>
         /// <returns></returns>
-        Task<bool> AddGCblockAsync(GCblockEntity entiry);
+        Task<bool> AddGCPrestackAAsync(GCPrestackEntity entiry);
 
         /// <summary>
         /// 更新参数名
@@ -33,7 +33,7 @@ namespace CS.IBLL.Business
         /// <param name="id"></param>
         /// <param name="nameEntiry"></param>
         /// <returns></returns>
-        Task<bool> UpdateGCblockAsync(long id, GCblockEntity entiry);
+        Task<bool> UpdateGCPrestackAAsync(long id, GCPrestackEntity entiry);
 
         /// <summary>
         /// 
@@ -41,6 +41,6 @@ namespace CS.IBLL.Business
         /// <param name="id"></param>
         /// <param name="nameEntiry"></param>
         /// <returns></returns>
-        Task<bool> DeteleGCblockAsync(long id);
+        Task<bool> DeteleGCPrestackAAsync(long id);
     }
 }
