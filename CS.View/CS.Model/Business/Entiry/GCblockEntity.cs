@@ -23,5 +23,14 @@ namespace CS.Model.Business.Entiry
         /// </summary>
         public string CreateTime { get; set; }
 
+        private string _batteryCodeDetil = "请查看详细";
+
+        public string BatteryCodeDetil
+        {
+            get { return _batteryCodeDetil; }
+            set { _batteryCodeDetil = value; }
+        }
+
+
     }
 }

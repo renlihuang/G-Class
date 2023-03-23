@@ -7,6 +7,7 @@ using CS.Model.Business.QueryCondition;
 using DCS.BASE;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,30 @@ namespace CS.BLL.Business
             HttpRequestModel httpRequestModel = new HttpRequestModel();
             httpRequestModel.Host = AppConfig.BusinessApiHost;
             httpRequestModel.Path = $"/GCblock/GetListPaged?page={pageIndex}&limit={pageSize}" + ConditionStringBuilder.ToString();
+            //查询数据
+            var result = await _requestToHttpHelper.GetAsync<QueryPagedResponseModel<GCblockEntity>>(httpRequestModel).ConfigureAwait(false);
+
+            if (result.IsSuccess)
+            {
+                responseModel = result.BackResult;
+            }
+            else
+            {
+                responseModel = new QueryPagedResponseModel<GCblockEntity>();
+            }
+
+            return responseModel;
+        }
+
+        public async Task<QueryPagedResponseModel<GCblockEntity>> GetGCblockbyidAsync(GCblockCondition condition)
+        {
+            QueryPagedResponseModel<GCblockEntity> responseModel = null;
+            //拼接查询字符串
+            StringBuilder ConditionStringBuilder = new StringBuilder();
+
+            HttpRequestModel httpRequestModel = new HttpRequestModel();
+            httpRequestModel.Host = AppConfig.BusinessApiHost;
+            httpRequestModel.Path = $"/GCblock/GetList?VirtualCode=" +condition.VirtualCode.ToString() ;
             //查询数据
             var result = await _requestToHttpHelper.GetAsync<QueryPagedResponseModel<GCblockEntity>>(httpRequestModel).ConfigureAwait(false);
 

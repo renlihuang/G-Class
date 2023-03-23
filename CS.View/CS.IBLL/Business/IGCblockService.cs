@@ -20,6 +20,16 @@ namespace CS.IBLL.Business
         /// <returns></returns>
         Task<QueryPagedResponseModel<GCblockEntity>> GetGCblockAsync(int pageIndex, int pageSize, GCblockCondition condition);
 
+
+        /// <summary>
+        /// 根据条码查询数据
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        Task<QueryPagedResponseModel<GCblockEntity>> GetGCblockbyidAsync(GCblockCondition condition);
+
         /// <summary>
         /// 添加参数名
         /// </summary>

@@ -22,7 +22,7 @@ namespace CS.View.ViewModel.GClass
         /// <summary>
         /// 参数明细
         /// </summary>
-        private readonly SCGummingRollEntity petEntity;
+        private readonly GCblockEntity petEntity;
 
         public GCblockViewModel(IGCblockService petService)
         {
@@ -46,10 +46,11 @@ namespace CS.View.ViewModel.GClass
             BaseMsgDialog baseMsgDialog = new BaseMsgDialog();
 
             //绑定viewModel
-            baseMsgDialog.BindDataContex<OcvCodeView, OcvCodeViewModel>(new OcvCodeView(), new OcvCodeViewModel(obj));
+            baseMsgDialog.BindDataContex<OcvCodeView, OcvCodeViewModel>(new OcvCodeView(), new OcvCodeViewModel(obj, _petService));
             //显示对话框
             await baseMsgDialog.ShowDialog();
         }
+
 
         /// <summary>
         /// 打开电芯明细
@@ -111,7 +112,7 @@ namespace CS.View.ViewModel.GClass
 
             if (Mode == ActionMode.Add)
             {
-                Model.Id = petEntity.ID;
+                Model.Id = petEntity.Id;
                 //添加数据
                 result = await _petService.AddGCblockAsync(Model);
             }

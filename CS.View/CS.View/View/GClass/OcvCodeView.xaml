@@ -2,22 +2,23 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-           xmlns:Control="clr-namespace:CS.View.FrameControl" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
-             Width="200" Height="300">
+              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" xmlns:FrameControl="clr-namespace:CS.View.FrameControl" xmlns:gclass="clr-namespace:CS.View.ViewModel.GClass" d:DataContext="{d:DesignInstance Type=gclass:OcvCodeViewModel}"
+             Width="500" Height="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid>
             <materialDesign:ColorZone  Padding="20" Mode="PrimaryMid" />
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="模组条码:" FontSize="20" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <TextBlock Text="{Binding code}" FontSize="20" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <TextBlock  Text="{Binding code }" FontSize="20" Foreground="White" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
 
 
@@ -36,8 +37,10 @@
                                   Background="{StaticResource DefaultBackGround}">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="电芯条码" Binding="{Binding ModuleCode}" />
+                <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCode}" />
             </DataGrid.Columns>
+            
         </DataGrid>
+        <FrameControl:UserPageingControl Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>

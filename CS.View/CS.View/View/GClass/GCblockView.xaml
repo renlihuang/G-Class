@@ -60,7 +60,7 @@
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="模组条码" Binding="{Binding VirtualCode}" />
-                            <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCoreCode}" />
+                            <DataGridTextColumn Header="电芯条码" Binding="{Binding BatteryCodeDetil}" />
                             <DataGridTextColumn Header="测试时间" Binding="{Binding CreateTime,StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
                             <DataGridTemplateColumn Header="操作">
                                 <DataGridTemplateColumn.CellTemplate>

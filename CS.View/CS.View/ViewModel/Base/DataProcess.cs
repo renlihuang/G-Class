@@ -54,7 +54,13 @@ namespace CS.View.ViewModel.Base
         {
             get { return _dataGridDatas; }
         }
-
+        /// <summary>
+        /// 列表数据
+        /// </summary>
+        public ObservableCollection<T> GCblockDatas
+        {
+            get { return _dataGridDatas; }
+        }
         /// <summary>
         /// 添加命令
         /// </summary>

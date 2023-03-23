@@ -23,7 +23,7 @@ namespace CS.View.ViewModel.GClass
         /// <summary>
         /// 参数明细
         /// </summary>
-        private readonly SCGummingRollEntity petEntity;
+        private readonly GCGlueEntity petEntity;
 
         public GCGlueViewModel(IGCGlueService petService)
         {
@@ -31,7 +31,6 @@ namespace CS.View.ViewModel.GClass
 
             this.Init();
         }
-
         /// <summary>
         /// 参数明细命令
         /// </summary>
@@ -87,7 +86,7 @@ namespace CS.View.ViewModel.GClass
 
             if (Mode == ActionMode.Add)
             {
-                Model.Id = petEntity.ID;
+                Model.Id = petEntity.Id;
                 //添加数据
                 result = await _petService.AddGCGlueAsync(Model);
             }
