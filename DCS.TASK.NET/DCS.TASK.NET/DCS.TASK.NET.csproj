@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22F53324-CA99-408B-8913-527A3BEDD67B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DCS.TASK.NET</RootNamespace>
+    <AssemblyName>DCS.TASK.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.4.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.2.0.4\lib\net452\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.3.0.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.4.3.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="CommonControl\TaskInfoControl.xaml.cs">
+      <DependentUpon>TaskInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonControl\TaskTabControl.xaml.cs">
+      <DependentUpon>TaskTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonControl\TaskTagsControl.xaml.cs">
+      <DependentUpon>TaskTagsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonControl\TaskTreeControl.xaml.cs">
+      <DependentUpon>TaskTreeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommonControl\ToolBarControl.xaml.cs">
+      <DependentUpon>ToolBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\AssemblyManage.cs" />
+    <Compile Include="Common\AutoInject.cs" />
+    <Compile Include="Common\DataMap.cs" />
+    <Compile Include="Common\Global.cs" />
+    <Compile Include="Common\IniFileConfig.cs" />
+    <Compile Include="Common\LogHelp.cs" />
+    <Compile Include="Common\MessageItemType.cs" />
+    <Compile Include="Common\MessageQueue.cs" />
+    <Compile Include="Common\ServiceFiguration.cs" />
+    <Compile Include="Common\SingleInstance.cs" />
+    <Compile Include="Common\SkinMessageBox.cs" />
+    <Compile Include="Common\StartUp.cs" />
+    <Compile Include="Common\TaskMsg.cs" />
+    <Compile Include="Common\TaskTreeExtendFuntion.cs" />
+    <Compile Include="Config\CollectTaskInfo.cs" />
+    <Compile Include="Config\SystemConfig.cs" />
+    <Compile Include="Config\TaskBaseModel.cs" />
+    <Compile Include="Config\TaskDicrectory.cs" />
+    <Compile Include="Config\TaskGroupInfo.cs" />
+    <Compile Include="Config\TaskRootConfig.cs" />
+    <Compile Include="FreameWork\CollectTaskGroup.cs" />
+    <Compile Include="FreameWork\CollectTaskItem.cs" />
+    <Compile Include="FreameWork\TaskEvenLoop.cs" />
+    <Compile Include="FreameWork\TaskEvenThread.cs" />
+    <Compile Include="FreameWork\TaskThread.cs" />
+    <Compile Include="FreameWork\TaskTimer.cs" />
+    <Compile Include="ValueConvert\VisibilityConvertcs.cs" />
+    <Compile Include="ViewDlg\AddCollectionGroupDlg.xaml.cs">
+      <DependentUpon>AddCollectionGroupDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDlg\AddDirectoryDlg.xaml.cs">
+      <DependentUpon>AddDirectoryDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDlg\AddGroupDlg.xaml.cs">
+      <DependentUpon>AddGroupDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDlg\AddParamDialog.xaml.cs">
+      <DependentUpon>AddParamDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDlg\AddTaskDlg.xaml.cs">
+      <DependentUpon>AddTaskDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewDlg\MsgBoxDialog.xaml.cs">
+      <DependentUpon>MsgBoxDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Base\BaseDIalogViewModel.cs" />
+    <Compile Include="ViewModel\Base\BaseTreeViewModel.cs" />
+    <Compile Include="ViewModel\Base\BaseWindowViewModel.cs" />
+    <Compile Include="ViewModel\Base\LogItemViewModel.cs" />
+    <Compile Include="ViewModel\Base\PopupBoxViewModel.cs" />
+    <Compile Include="ViewModel\Base\TabPageViewModel.cs" />
+    <Compile Include="ViewModel\Base\TaskStatusViewModel.cs" />
+    <Compile Include="ViewModel\Base\TaskTreeNode.cs" />
+    <Compile Include="ViewModel\MainView\MainViewModel.cs" />
+    <Compile Include="ViewModel\TaskStatus\AllTaskStatusViewModel.cs" />
+    <Compile Include="ViewModel\TaskStatus\IUpdateStatus.cs" />
+    <Compile Include="ViewModel\TaskStatus\TaskStatusItemViewModel.cs" />
+    <Compile Include="ViewModel\TaskTags\TaskTagItem.cs" />
+    <Compile Include="ViewModel\TaskTags\TaskTagsViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\AddCollectionGroupViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\AddDirectoryViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\AddGroupNameDlgViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\AddParamViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\AddTaskViewModel.cs" />
+    <Compile Include="ViewModel\ViewDlgViewModel\MsgBoxViewModel.cs" />
+    <Page Include="CommonControl\TaskInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonControl\TaskTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonControl\TaskTagsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonControl\TaskTreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommonControl\ToolBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resource\DictionaoryColor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\AddCollectionGroupDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\AddDirectoryDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\AddGroupDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\AddParamDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\AddTaskDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewDlg\MsgBoxDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DCS.BASE\DCS.BASE.csproj">
+      <Project>{5c1c3e01-62b8-4e91-a241-9a8df2fb9e3f}</Project>
+      <Name>DCS.BASE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCS.BLL\DCS.BLL.csproj">
+      <Project>{E2B36D7D-4F1E-447B-8996-74833BAF0C30}</Project>
+      <Name>DCS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCS.CORE\DCS.CORE.csproj">
+      <Project>{898a8b4d-0324-47be-90bf-a7094dfe8351}</Project>
+      <Name>DCS.CORE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DCS.TASKITEM\DCS.TASK.ITEM.csproj">
+      <Project>{d163ce95-397a-42fd-a693-2eff232db2af}</Project>
+      <Name>DCS.TASK.ITEM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MESwebservice\MESwebservice.csproj">
+      <Project>{2955A1D4-BBD1-4B3D-B33A-AB0B33B1BA70}</Project>
+      <Name>MESwebservice</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+</Project>
