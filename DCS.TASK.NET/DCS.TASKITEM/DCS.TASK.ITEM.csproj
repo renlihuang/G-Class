@@ -71,6 +71,11 @@
   <ItemGroup>
     <Compile Include="DataGather\BlockVirtualCodeGather.cs" />
     <Compile Include="DataGather\BlockVirtualCodeGather2.cs" />
+    <Compile Include="DataGather\GCblockGather.cs" />
+    <Compile Include="DataGather\GCGlueGather.cs" />
+    <Compile Include="DataGather\GCOCVTestGather.cs" />
+    <Compile Include="DataGather\GCPDPGather.cs" />
+    <Compile Include="DataGather\GCPrestackGather.cs" />
     <Compile Include="DataGather\PreWeldAddrGather.cs" />
     <Compile Include="DataGather\SeekSiteGather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,7 +85,6 @@
     <Compile Include="DataGather\BlockGather.cs" />
     <Compile Include="DataGather\BlockPressInBoxGather.cs" />
     <Compile Include="DataGather\BusbarWeldGather.cs" />
-    <Compile Include="DataGather\BatteryCoreOcvTestGather.cs" />
     <Compile Include="DataGather\PackStandingGather.cs" />
     <Compile Include="DataGather\PasteBoxGather.cs" />
     <Compile Include="DataGather\PasteBoxShimGather.cs" />

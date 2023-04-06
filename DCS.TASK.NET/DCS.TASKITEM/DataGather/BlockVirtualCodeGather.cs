@@ -243,9 +243,9 @@ namespace DCS.TASKITEM.DataGather
                                 try
                                 {
                                     BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
-                                    MESwebservice.FindCusAndSfc.miFindCustomAndSfcDataResponse miFindCustomAndSfcDataResponse = BlockCall.ShimEntry(@AppConfig.WebserviceiniPath, "Block入packing进站", messfc, pnType);
-                                    code = miFindCustomAndSfcDataResponse.@return.code;
-                                    msg = miFindCustomAndSfcDataResponse.@return.message;
+                                    //MESwebservice.FindCusAndSfc.miFindCustomAndSfcDataResponse miFindCustomAndSfcDataResponse = BlockCall.ShimEntry(@AppConfig.WebserviceiniPath, "Block入packing进站", messfc, pnType);
+                                    //code = miFindCustomAndSfcDataResponse.@return.code;
+                                    //msg = miFindCustomAndSfcDataResponse.@return.message;
                                 }
                                 catch (Exception ex)
                                 {
@@ -264,52 +264,52 @@ namespace DCS.TASKITEM.DataGather
 
 
 
-                                //模组装配 
-                                try
-                                {
-                                    //messfc = "001MEAVN000002C770300016";
-                                    BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
-                                    miAssmebleAndCollectDataForSfcResponse collectResponse = BlockCall.BlockMiAssemble(@AppConfig.WebserviceiniPath, "Block模组装配电芯", list, messfc, pnType);
-                                    code = collectResponse.@return.code;
-                                    msg = collectResponse.@return.message;
-                                }
-                                catch (Exception ex)
-                                {
-                                    throw ex;
-                                }
-                                if (!checkCode("BLOCK申请虚拟条码", "模组装配电芯接口", code, msg, messfc))
-                                {
-                                    _outStaionResult = false;
-                                    _isOutStation = true;
-                                    break;
-                                }
-                                else
-                                {
-                                    _outStaionResult = true;
-                                }
+                                ////模组装配 
+                                //try
+                                //{
+                                //    //messfc = "001MEAVN000002C770300016";
+                                //    BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
+                                //    miAssmebleAndCollectDataForSfcResponse collectResponse = BlockCall.BlockMiAssemble(@AppConfig.WebserviceiniPath, "Block模组装配电芯", list, messfc, pnType);
+                                //    code = collectResponse.@return.code;
+                                //    msg = collectResponse.@return.message;
+                                //}
+                                //catch (Exception ex)
+                                //{
+                                //    throw ex;
+                                //}
+                                //if (!checkCode("BLOCK申请虚拟条码", "模组装配电芯接口", code, msg, messfc))
+                                //{
+                                //    _outStaionResult = false;
+                                //    _isOutStation = true;
+                                //    break;
+                                //}
+                                //else
+                                //{
+                                //    _outStaionResult = true;
+                                //}
 
-                                // 收数
-                                try
-                                {
-                                    BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
-                                    MESwebservice.AutoWeight.dataCollectForSfcExResponse sfcResponse1 = BlockCall.VirtualCodeDatacoll(@AppConfig.WebserviceiniPath, "释放虚拟模组号收数", messfc, batteryCoreOcvlist, modletype, pnType);
-                                    code = sfcResponse1.@return.code;
-                                    msg = sfcResponse1.@return.message;
-                                    if (!checkCode("BLOCK申请虚拟条码", "释放虚拟模组号收数接口", code, msg, messfc))
-                                    {
-                                        _outStaionResult = false;
-                                        _isOutStation = true;
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        _outStaionResult = true;
-                                    }   
-                                }
-                                catch (Exception ex)
-                                {
-                                    throw ex;
-                                }
+                                //// 收数
+                                //try
+                                //{
+                                //    BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
+                                //    MESwebservice.AutoWeight.dataCollectForSfcExResponse sfcResponse1 = BlockCall.VirtualCodeDatacoll(@AppConfig.WebserviceiniPath, "释放虚拟模组号收数", messfc, batteryCoreOcvlist, modletype, pnType);
+                                //    code = sfcResponse1.@return.code;
+                                //    msg = sfcResponse1.@return.message;
+                                //    if (!checkCode("BLOCK申请虚拟条码", "释放虚拟模组号收数接口", code, msg, messfc))
+                                //    {
+                                //        _outStaionResult = false;
+                                //        _isOutStation = true;    
+                                //        break;
+                                //    }
+                                //    else
+                                //    {
+                                //        _outStaionResult = true;
+                                //    }   
+                                //}
+                                //catch (Exception ex)
+                                //{
+                                //    throw ex;
+                                //}
                                 //判断ab模组
                                 //PasteBoxCall pasteBox1 = new PasteBoxCall(_collectTaskContext);
                                 //miGetSlotDataResponse slotDataResponseA1 = PasteBoxCall.GetBarCodeInfo(@AppConfig.WebserviceiniPath, "贴箱体标获取铭牌", messfc);

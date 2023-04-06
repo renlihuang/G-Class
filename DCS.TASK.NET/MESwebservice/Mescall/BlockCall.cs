@@ -423,7 +423,7 @@ namespace MESwebservice.Mescall
         /// <param name="inipath"></param>
         /// <param name="sitename"></param>
         /// <returns></returns>
-        public static miAssmebleAndCollectDataForSfcResponse BlockMiAssemble(string inipath, string sitename, List<BlockEntity> blockEntities, string sfc, string pnType)
+        public static miAssmebleAndCollectDataForSfcResponse BlockMiAssemble(string inipath, string sitename, List<OCVcodeEntity> blockEntities, string sfc)
         {
 
             DateTime startime = DateTime.Now;
@@ -440,18 +440,7 @@ namespace MESwebservice.Mescall
             req_arg.operation = IniFileAPI.INIGetStringValue(inipath, sitename, "operation", "");
             req_arg.operationRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "operationRevision", "");
             req_arg.activityId = IniFileAPI.INIGetStringValue(inipath, sitename, "activityId", "");
-            #region 生产模式相关
-            if (pnType == "830100-02436")
-            {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceA", "");
-            }
-            else
-            {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceB", "");
-            }
-
-            #endregion
-            //req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
+            req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
             req_arg.dcGroup = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroup", "");
             req_arg.dcGroupRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroupRevision", "");
             string sfcmode = IniFileAPI.INIGetStringValue(inipath, sitename, "mode", "");
@@ -498,7 +487,7 @@ namespace MESwebservice.Mescall
             {
 
                 miInventoryData midata = new miInventoryData();
-                midata.inventory = blockEntities[i].BatteryCoreCode.Substring(0,24);
+                midata.inventory = blockEntities[i].BatteryCode.Substring(0,24);
                 midata.qty = "1";
 
                 //AssemblyDataField assemblyDataField = new AssemblyDataField();
@@ -921,12 +910,132 @@ namespace MESwebservice.Mescall
 
         }
         /// <summary>
-        /// 申请虚拟模组号收数
+        /// 等离子清洗收数
         /// </summary>
         /// <param name="inipath"></param>
         /// <param name="sitename"></param>
+        /// <param name="messfc"></param>
+        /// <param name="gCGlue"></param>
         /// <returns></returns>
-        public static AutoWeight.dataCollectForSfcExResponse VirtualCodeDatacoll(string inipath, string sitename, string messfc, List<BatteryCoreOcvTestEntity> list,string mestype, string pnType)
+        public static AutoWeight.dataCollectForSfcExResponse GcPDPDatacoll(string inipath, string sitename, GCPDPEntity gCPDP)
+        {
+            DateTime startime = DateTime.Now;
+            var wsService = new AutoWeight.MachineIntegrationServiceService();
+            wsService.Url = IniFileAPI.INIGetStringValue(inipath, sitename, "MESWSDL", "");
+            wsService.Timeout = Convert.ToInt32(IniFileAPI.INIGetStringValue(inipath, sitename, "TimeOut", ""));
+            wsService.Credentials = new System.Net.NetworkCredential(IniFileAPI.INIGetStringValue(inipath, sitename, "Username", ""), IniFileAPI.INIGetStringValue(inipath, sitename, "Password", ""), null);
+            wsService.PreAuthenticate = true;
+            //设置传输参数
+            var req = new AutoWeight.dataCollectForSfcEx();
+            var req_arg = new AutoWeight.sfcDcExRequest();
+            req_arg.site = IniFileAPI.INIGetStringValue(inipath, sitename, "site", "");
+            req_arg.user = IniFileAPI.INIGetStringValue(inipath, sitename, "user", "");
+            req_arg.operation = IniFileAPI.INIGetStringValue(inipath, sitename, "operation", "");
+            req_arg.operationRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "operationRevision", "");
+            //调用获取铭牌接口，根据pn判断调用a资源号还是b
+            string sfc = gCPDP.ModuleCode.Substring(0, 24);
+
+            req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
+
+            req_arg.dcGroup = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroup", "");
+            req_arg.dcGroupRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroupRevision", "");
+            req_arg.sfc = sfc;
+            req_arg.activityId = IniFileAPI.INIGetStringValue(inipath, sitename, "activityId", "");
+            // req_arg.dcMode = IniFileAPI.INIGetStringValue(inipath, sitename, "", "");
+            List<AutoWeight.machineIntegrationParametricData> DClists = new List<AutoWeight.machineIntegrationParametricData>();
+            DClists.Clear();
+            // 电芯条码
+            AutoWeight.machineIntegrationParametricData machineIntegrationParametric1 = new AutoWeight.machineIntegrationParametricData();
+            machineIntegrationParametric1.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname1", "");
+            machineIntegrationParametric1.value = gCPDP.ModuleCode.ToString();
+            machineIntegrationParametric1.dataType = AutoWeight.ParameterDataType.TEXT;
+            DClists.Add(machineIntegrationParametric1);
+
+
+            req_arg.parametricDataArray = DClists.ToArray();
+
+            DateTime endtime = DateTime.Now;
+            AutoWeight.dataCollectForSfcExResponse dataCollectForSfcExResponse = null;
+            req.SfcDcExRequest = req_arg;
+
+            bool isSaveCsvFile = true;
+            bool isSaveCsvlogFile = true;
+            try
+            {
+                dataCollectForSfcExResponse = wsService.dataCollectForSfcEx(req as AutoWeight.dataCollectForSfcEx);
+                endtime = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                isSaveCsvFile = false;
+                isSaveCsvlogFile = false;
+                throw ex;
+            }
+
+            if (isSaveCsvFile)
+            {
+                //csv文件数据保存
+                _dic.Clear();
+                _dic.Add("url", wsService.Url);
+                _dic.Add("Timeout", wsService.Timeout);
+                _dic.Add("Username", IniFileAPI.INIGetStringValue(inipath, sitename, "Username", ""));
+                _dic.Add("Password", IniFileAPI.INIGetStringValue(inipath, sitename, "Password", ""));
+                _dic.Add("PreAuthenticate", wsService.PreAuthenticate);
+                _dic.Add("site", req_arg.site);
+                _dic.Add("user", req_arg.user);
+                _dic.Add("operation", req_arg.operation);
+                _dic.Add("operationRevision", req_arg.operationRevision);
+                _dic.Add("resource", req_arg.resource);
+                _dic.Add("dcGroup", req_arg.dcGroup);
+                _dic.Add("dcGroupRevision", req_arg.dcGroupRevision);
+                _dic.Add("sfc", req_arg.sfc);
+                _dic.Add("parametricDataArray", req_arg.parametricDataArray);
+
+                dicLst.Clear();
+                dicLst.Add(_dic);
+                // 判断模组号是否有
+
+                _log.ToCSVData(dicLst, sfc, sitename);
+            }
+            if (isSaveCsvlogFile)
+            {
+                _dic_log.Clear();
+                _dic_log.Add("SFC", sfc);
+                _dic_log.Add("接口调用时间", startime);
+                string s = "{";
+                foreach (var item in _dic)
+                {
+                    s += item.Key.ToString() + ":" + item.Value.ToString() + "，";
+                }
+                foreach (var item in req_arg.parametricDataArray)
+                {
+                    s += item.name.ToString() + ":" + item.value.ToString() + "，";
+                }
+                s += "}";
+
+                _dic_log.Add("接口传参数", s);
+                _dic_log.Add("接口调用返回时间", endtime);
+                string difftime = DateDiff(startime, endtime);
+                _dic_log.Add("耗时", difftime);
+                _dic_log.Add("返回代码", dataCollectForSfcExResponse.@return.code);
+                _dic_log.Add("返回信息", dataCollectForSfcExResponse.@return.message);
+                dicLst.Clear();
+                dicLst.Add(_dic_log);
+                _log.ToCSVLOG(dicLst, sitename, sfc, "收数");
+            }
+
+            return dataCollectForSfcExResponse;
+
+        }
+        /// <summary>
+        ///侧板涂胶收数
+        /// </summary>
+        /// <param name="inipath"></param>
+        /// <param name="sitename"></param>
+        /// <param name="messfc"></param>
+        /// <param name="gCGlue"></param>
+        /// <returns></returns>
+        public static AutoWeight.dataCollectForSfcExResponse GcGlueDatacoll(string inipath, string sitename, string messfc, GCGlueEntity gCGlue)
         {
             DateTime startime = DateTime.Now;
             var wsService = new AutoWeight.MachineIntegrationServiceService();
@@ -944,14 +1053,131 @@ namespace MESwebservice.Mescall
             //调用获取铭牌接口，根据pn判断调用a资源号还是b
             string sfc = messfc.Substring(0, 24);
 
-            if (pnType == "830100-02436")
+            req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
+
+            req_arg.dcGroup = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroup", "");
+            req_arg.dcGroupRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroupRevision", "");
+            req_arg.sfc = sfc;
+            req_arg.activityId = IniFileAPI.INIGetStringValue(inipath, sitename, "activityId", "");
+            // req_arg.dcMode = IniFileAPI.INIGetStringValue(inipath, sitename, "", "");
+            List<AutoWeight.machineIntegrationParametricData> DClists = new List<AutoWeight.machineIntegrationParametricData>();
+            DClists.Clear();
+            // 电芯条码
+            AutoWeight.machineIntegrationParametricData machineIntegrationParametric1 = new AutoWeight.machineIntegrationParametricData();
+            machineIntegrationParametric1.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname1", "") ;
+            machineIntegrationParametric1.value = gCGlue.GlueWeight.ToString();
+            machineIntegrationParametric1.dataType = AutoWeight.ParameterDataType.TEXT;
+            DClists.Add(machineIntegrationParametric1);
+            //// 电芯电压
+            //for (int i = 1; i < 31; i++)
+            //{
+            //    AutoWeight.machineIntegrationParametricData machineIntegrationParametric2 = new AutoWeight.machineIntegrationParametricData();
+            //    machineIntegrationParametric2.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname2", "") + i.ToString();
+            //    machineIntegrationParametric2.value = list[i-1].OcvVoltage;
+            //    machineIntegrationParametric2.dataType = AutoWeight.ParameterDataType.NUMBER;
+            //    DClists.Add(machineIntegrationParametric2);
+            //}
+
+            req_arg.parametricDataArray = DClists.ToArray();
+
+            DateTime endtime = DateTime.Now;
+            AutoWeight.dataCollectForSfcExResponse dataCollectForSfcExResponse = null;
+            req.SfcDcExRequest = req_arg;
+
+            bool isSaveCsvFile = true;
+            bool isSaveCsvlogFile = true;
+            try
             {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceA", "");
+                dataCollectForSfcExResponse = wsService.dataCollectForSfcEx(req as AutoWeight.dataCollectForSfcEx);
+                endtime = DateTime.Now;
             }
-            else
+            catch (Exception ex)
             {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceB", "");
+                isSaveCsvFile = false;
+                isSaveCsvlogFile = false;
+                throw ex;
             }
+
+            if (isSaveCsvFile)
+            {
+                //csv文件数据保存
+                _dic.Clear();
+                _dic.Add("url", wsService.Url);
+                _dic.Add("Timeout", wsService.Timeout);
+                _dic.Add("Username", IniFileAPI.INIGetStringValue(inipath, sitename, "Username", ""));
+                _dic.Add("Password", IniFileAPI.INIGetStringValue(inipath, sitename, "Password", ""));
+                _dic.Add("PreAuthenticate", wsService.PreAuthenticate);
+                _dic.Add("site", req_arg.site);
+                _dic.Add("user", req_arg.user);
+                _dic.Add("operation", req_arg.operation);
+                _dic.Add("operationRevision", req_arg.operationRevision);
+                _dic.Add("resource", req_arg.resource);
+                _dic.Add("dcGroup", req_arg.dcGroup);
+                _dic.Add("dcGroupRevision", req_arg.dcGroupRevision);
+                _dic.Add("sfc", req_arg.sfc);
+                _dic.Add("parametricDataArray", req_arg.parametricDataArray);
+
+                dicLst.Clear();
+                dicLst.Add(_dic);
+                // 判断模组号是否有
+
+                _log.ToCSVData(dicLst, sfc, sitename);
+            }
+            if (isSaveCsvlogFile)
+            {
+                _dic_log.Clear();
+                _dic_log.Add("SFC", sfc);
+                _dic_log.Add("接口调用时间", startime);
+                string s = "{";
+                foreach (var item in _dic)
+                {
+                    s += item.Key.ToString() + ":" + item.Value.ToString() + "，";
+                }
+                foreach (var item in req_arg.parametricDataArray)
+                {
+                    s += item.name.ToString() + ":" + item.value.ToString() + "，";
+                }
+                s += "}";
+
+                _dic_log.Add("接口传参数", s);
+                _dic_log.Add("接口调用返回时间", endtime);
+                string difftime = DateDiff(startime, endtime);
+                _dic_log.Add("耗时", difftime);
+                _dic_log.Add("返回代码", dataCollectForSfcExResponse.@return.code);
+                _dic_log.Add("返回信息", dataCollectForSfcExResponse.@return.message);
+                dicLst.Clear();
+                dicLst.Add(_dic_log);
+                _log.ToCSVLOG(dicLst, sitename, sfc, "收数");
+            }
+
+            return dataCollectForSfcExResponse;
+
+        }
+        /// <summary>
+        /// 申请虚拟模组号收数
+        /// </summary>
+        /// <param name="inipath"></param>
+        /// <param name="sitename"></param>
+        /// <returns></returns>
+        public static AutoWeight.dataCollectForSfcExResponse VirtualCodeDatacoll(string inipath, string sitename, string messfc, List<OCVcodeEntity> list)
+        {
+            DateTime startime = DateTime.Now;
+            var wsService = new AutoWeight.MachineIntegrationServiceService();
+            wsService.Url = IniFileAPI.INIGetStringValue(inipath, sitename, "MESWSDL", "");
+            wsService.Timeout = Convert.ToInt32(IniFileAPI.INIGetStringValue(inipath, sitename, "TimeOut", ""));
+            wsService.Credentials = new System.Net.NetworkCredential(IniFileAPI.INIGetStringValue(inipath, sitename, "Username", ""), IniFileAPI.INIGetStringValue(inipath, sitename, "Password", ""), null);
+            wsService.PreAuthenticate = true;
+            //设置传输参数
+            var req = new AutoWeight.dataCollectForSfcEx();
+            var req_arg = new AutoWeight.sfcDcExRequest();
+            req_arg.site = IniFileAPI.INIGetStringValue(inipath, sitename, "site", "");
+            req_arg.user = IniFileAPI.INIGetStringValue(inipath, sitename, "user", "");
+            req_arg.operation = IniFileAPI.INIGetStringValue(inipath, sitename, "operation", "");
+            req_arg.operationRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "operationRevision", "");
+            //调用获取铭牌接口，根据pn判断调用a资源号还是b
+            string sfc = messfc.Substring(0, 24);
+
+            req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
 
             req_arg.dcGroup = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroup", "");
             req_arg.dcGroupRevision = IniFileAPI.INIGetStringValue(inipath, sitename, "dcGroupRevision", "");
@@ -965,19 +1191,19 @@ namespace MESwebservice.Mescall
             {
                 AutoWeight.machineIntegrationParametricData machineIntegrationParametric1 = new AutoWeight.machineIntegrationParametricData();
                 machineIntegrationParametric1.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname1" , "") + i.ToString();
-                machineIntegrationParametric1.value = list[i-1].BatteryCoreCode;
+                machineIntegrationParametric1.value = list[i-1].BatteryCode;
                 machineIntegrationParametric1.dataType = AutoWeight.ParameterDataType.TEXT;
                 DClists.Add(machineIntegrationParametric1);
             }
-            // 电芯电压
-            for (int i = 1; i < 31; i++)
-            {
-                AutoWeight.machineIntegrationParametricData machineIntegrationParametric2 = new AutoWeight.machineIntegrationParametricData();
-                machineIntegrationParametric2.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname2", "") + i.ToString();
-                machineIntegrationParametric2.value = list[i-1].OcvVoltage;
-                machineIntegrationParametric2.dataType = AutoWeight.ParameterDataType.NUMBER;
-                DClists.Add(machineIntegrationParametric2);
-            }
+            //// 电芯电压
+            //for (int i = 1; i < 31; i++)
+            //{
+            //    AutoWeight.machineIntegrationParametricData machineIntegrationParametric2 = new AutoWeight.machineIntegrationParametricData();
+            //    machineIntegrationParametric2.name = IniFileAPI.INIGetStringValue(inipath, sitename, "dcname2", "") + i.ToString();
+            //    machineIntegrationParametric2.value = list[i-1].OcvVoltage;
+            //    machineIntegrationParametric2.dataType = AutoWeight.ParameterDataType.NUMBER;
+            //    DClists.Add(machineIntegrationParametric2);
+            //}
 
             req_arg.parametricDataArray = DClists.ToArray();
 
@@ -1783,7 +2009,7 @@ namespace MESwebservice.Mescall
         /// </summary>
         /// <param name="inipath"></param>
         /// <param name="sitename"></param>
-        public static miFindCustomAndSfcDataResponse ShimEntry(string inipath, string sitename, string messfc, string pnType)
+        public static miFindCustomAndSfcDataResponse ShimEntry(string inipath, string sitename, string messfc)
         {
             //获取登录参数
             DateTime startime = DateTime.Now;
@@ -1801,16 +2027,7 @@ namespace MESwebservice.Mescall
             req_arg.activity = IniFileAPI.INIGetStringValue(inipath, sitename, "activityId", "");
             req_arg.modeProcessSFC = modeProcessSFC.MODE_START_SFC;
             string sfc = messfc.Substring(0, 24);
-
-            if (pnType == "830100-02436")
-            {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceA", "");
-            }
-            else 
-            {
-                req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "ResourceB", "");
-            }
-
+            req_arg.resource = IniFileAPI.INIGetStringValue(inipath, sitename, "Resource", "");
             req_arg.sfc = sfc;
 
             int code = -1;

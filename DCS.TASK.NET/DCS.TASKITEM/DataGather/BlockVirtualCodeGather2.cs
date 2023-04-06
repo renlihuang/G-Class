@@ -300,9 +300,9 @@ namespace DCS.TASKITEM.DataGather
                                     }
 
                                     BlockCall blockCall = new BlockCall(_collectTaskContext, _requestToHttpHelper);
-                                    MESwebservice.AutoWeight.dataCollectForSfcExResponse sfcResponse1 = BlockCall.VirtualCodeDatacoll(@AppConfig.WebserviceiniPath, "释放虚拟模组号收数", messfc, batteryCoreOcvlist, modletype, pn);
-                                    code = sfcResponse1.@return.code;
-                                    msg = sfcResponse1.@return.message;
+                                    //MESwebservice.AutoWeight.dataCollectForSfcExResponse sfcResponse1 = BlockCall.VirtualCodeDatacoll(@AppConfig.WebserviceiniPath, "释放虚拟模组号收数", messfc, batteryCoreOcvlist, modletype, pn);
+                                    //code = sfcResponse1.@return.code;
+                                    //msg = sfcResponse1.@return.message;
                                     //pasteBoxShimEntity11.ModuleCode1 = "001MEAVN000002C7M0500047";
                                     //pasteBoxShimEntity11.ShimNum = Convert.ToDecimal(0.70502);
                                     //pasteBoxShimEntity11.BlockMPA_4 = Convert.ToDecimal(4.83900);

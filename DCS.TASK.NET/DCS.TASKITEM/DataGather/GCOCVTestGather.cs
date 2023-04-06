@@ -1,10 +1,8 @@
-﻿using CS.Base.AppSet;
-using DCS.BASE;
+﻿using DCS.BASE;
 using DCS.BASE.IniFile;
 using DCS.CORE;
 using DCS.CORE.Interface;
 using DCS.MODEL.Entiry;
-using MESwebservice.Mescall;
 using MESwebservice.OCVCheckData;
 using MESwebservice.OCVgetData;
 using System;
@@ -12,35 +10,38 @@ using System.Collections.Generic;
 
 namespace DCS.TASKITEM.DataGather
 {
-    internal class BatteryCoreOcvTestGather : IPeriodicTask
+   /// <summary>
+   /// ocv测试
+   /// </summary>
+    internal class GCOCVTestGather : IPeriodicTask
     {
         /// <summary>
         /// 是否已经调用过出站
         /// </summary>
-        static bool _isOutStation = false;
+        private static bool _isOutStation = false;
 
         /// <summary>
         /// 出站结果
         /// </summary>
-        static bool _outStaionResult = false;
+        private static bool _outStaionResult = false;
+
         //csvlist
         private static List<Dictionary<string, object>> dicLst = new List<Dictionary<string, object>>();
-        public BatteryCoreOcvTestGather(RequestToHttpHelper requestToHttpHelper)
+
+        public GCOCVTestGather(RequestToHttpHelper requestToHttpHelper)
         {
             _requestToHttpHelper = requestToHttpHelper;
         }
 
-        RequestToHttpHelper _requestToHttpHelper;
+        private RequestToHttpHelper _requestToHttpHelper;
 
-
-        static CollectTaskContext _collectTaskContext;
-        string plcDataStatus;
-        string mesDataStatus;
-        string needleCount;
-        string Apihost;
-        static ILogOperator _log;
-        List<BatteryCoreOcvTestEntity> _batterylist = new List<BatteryCoreOcvTestEntity>();
-
+        private static CollectTaskContext _collectTaskContext;
+        private string plcDataStatus;
+        private string mesDataStatus;
+        private string needleCount;
+        private string Apihost;
+        private static ILogOperator _log;
+        private List<GCOcvTestEntity> _batterylist = new List<GCOcvTestEntity>();
 
         public void DoInit(TimedTaskContext taskContext)
         {
@@ -52,153 +53,59 @@ namespace DCS.TASKITEM.DataGather
 
         public void DoTask()
         {
-            //cellCustomDCCheckResponse ocvcheck = OCVCall.cellCustomDCCheck(@AppConfig.WebserviceiniPath, "A030电芯判定数据", _batterylist);
-            //int code = ocvcheck.@return.code;
-            //string msg = ocvcheck.@return.message;
-
-
-
             var opc = _collectTaskContext.OpcOperator;
 
-
+            //读取flag字典
+            Dictionary<string, object> dataflag = new Dictionary<string, object>();
+            //读取数据字典
             Dictionary<string, object> data = new Dictionary<string, object>();
 
             //写入字典
             Dictionary<string, object> writeTags = new Dictionary<string, object>();
             //拼接结构体读取data
-            string tagName = "\"TMCOCVTESTDB\".";
+            string tagName = "\"GCOCVTESTDB\".";
 
             plcDataStatus = tagName + "dataStatus_PLC";
             mesDataStatus = tagName + "dataStatus_MES";
-            needleCount = tagName + "needlenumber";
-            data[plcDataStatus] = null;
-            data[mesDataStatus] = null;
-            data[needleCount] = null;
-            for (int i = 0; i < 36; i++)
+            dataflag[plcDataStatus] = null;
+            dataflag[mesDataStatus] = null;
+            for (int i = 0; i < 48; i++)
             {
                 data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"] = null;
+                data[tagName + $"\"OCVDATA\".LocationCode[{i}]"] = null;
                 data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"] = null;
-                data[tagName + $"\"OCVDATA\".BatteryState[{i}]"] = null;
+                data[tagName + $"\"OCVDATA\".Temperature [{i}]"] = null;
                 data[tagName + $"\"OCVDATA\".Result[{i}]"] = null;
-            }
-            for (int i = 0; i < 2; i++)
-            {
-                data[tagName + $"\"OcvTEMP\"[{i}]"] = null;
             }
 
             //判断是否读取成功
-            if (opc.ReadNodes(data))
+            if (opc.ReadNodes(dataflag))
             {
-                //foreach (var item in data)
-                //{
-                //    _collectTaskContext.TaskMsgOperator.SetPairText(item.Key, item.Value.ToString());
-                //}
                 _collectTaskContext.TaskMsgOperator.SetPairText("PLC标志位", data[tagName + "dataStatus_PLC"].ToString());
                 _collectTaskContext.TaskMsgOperator.SetPairText("MES标志位", data[tagName + "dataStatus_MES"].ToString());
-                _collectTaskContext.TaskMsgOperator.SetPairText("探针使用次数", data[tagName + "needlenumber"].ToString());
-                // _collectTaskContext.TaskMsgOperator.SetPairText("错误代码", "11111");
 
-                int PlcFalg = Convert.ToInt16(data[plcDataStatus].ToString());
-                int MesFalg = Convert.ToInt16(data[mesDataStatus].ToString());
-                string Needlenum = data[needleCount].ToString();
+                int PlcFalg = Convert.ToInt16(dataflag[plcDataStatus].ToString());
+                int MesFalg = Convert.ToInt16(dataflag[mesDataStatus].ToString());
                 _outStaionResult = true;
                 int code = -1;
                 string msg = "";
 
-                // miBatchStartAndGetParameterResponse ocvget1 = OCVCall.GetOCVdata(@AppConfig.WebserviceiniPath, "A030电芯获取数据", _batterylist);
-                //是否采集完成
                 bool isFinish = MesFalg == 4 || MesFalg == 0;
                 if (PlcFalg == 1 && isFinish)
                 {
-
-
                     _collectTaskContext.TaskMsgOperator.SetText("OVC测试开始处理PLC数据");
                     _log.AddUserLog("读取数据", "读取PLC", "PLC标志位等于" + PlcFalg);
-
-                    //记录数据
-                    //_log.AddUserLog("读取数据", "读取PLC", "记录数据：" + JsonHelper.SerializeObject(_batterylist));
-
-                    #region ocv mes交互
-                    // 判断mes状态是否启用
-                    var mesStatus = IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "MES状态", "MesStatus", "");
-                    if (mesStatus == "ON") // ON 开
+                    if (opc.ReadNodes(data))
                     {
-                       
-                    }
-                    #endregion
-
-                    double upMax = Convert.ToDouble(IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "电芯规格", "UPMAX","")); // 上限
-                    double downMin = Convert.ToDouble(IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "电芯规格", "DOWNMIN", "")); // 下限
-                    string gsCode = IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "公司码", "GSM", ""); // 公司码
-                    string cdmCode = IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "场地码", "CDM", ""); // 产地码
-                    string ggmcode = IniFileAPI.INIGetStringValue(@AppConfig.WebserviceiniPath, "规格码", "GGM", "");//规格码
-
-                    //采集完成，写入MES标志位
-                    for (int i = 0; i < 36; i++)
-                    {
-                        if (string.IsNullOrWhiteSpace(data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString()))
+                        for (int i = 0; i < 48; i++)
                         {
-                            writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                            _log.AddUserLog("电芯OCV测试", "电芯OCV测试", string.Format("电芯条码为空"));
-                        }
-                        else
-                        {
-                            int x = 0;
-                            writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(1);
-                            // 校验公司码 20220722
-                            if (data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString().Substring(0, 3) == gsCode)
+                            string tempcode = data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString();
+                            if (string.IsNullOrWhiteSpace(tempcode) || tempcode.Length < 22)
                             {
-                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(1);
+                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(3);
+                                _log.AddUserLog("电芯OCV测试", "电芯OCV测试", string.Format("电芯条码为空或者位数不合格,条码为:" + tempcode));
                             }
-                            else
-                            {
-                                x++;
-                                // writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                                _collectTaskContext.TaskMsgOperator.SetPairText("公司码校验失败" + i, data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                                _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "公司码校验失败，电芯条码：" + data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                            }
-
-                            // 校验场地码 20220722
-                            if (data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString().Substring(13, 1) == cdmCode)
-                            {
-                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(1);
-                            }   
-                            else
-                            {
-                                x++;
-                                // writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                                _collectTaskContext.TaskMsgOperator.SetPairText("场地码校验失败"+i, data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                                _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "场地码校验失败，电芯条码：" + data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                            }
-                            string test = data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString().Substring(5, 3);
-                            // 规格码 20220722
-                            if (data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString().Substring(5, 3) == ggmcode)
-                            {
-                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(1);
-                            }
-                            else
-                            {
-                                x++;
-                                // writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                                _collectTaskContext.TaskMsgOperator.SetPairText("规格码校验失败" + i, data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                                _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "规格码校验失败，电芯条码：" + data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                            }
-                            // 判断电芯电压
-                            if (Convert.ToDouble(data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"]) > downMin && Convert.ToDouble(data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"]) < upMax)
-                            {
-                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(1);
-                            }
-                            else
-                            {
-                                x++;
-                                // writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                                _collectTaskContext.TaskMsgOperator.SetPairText("电压不合格", data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString());
-                                _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "电芯OCV测试失败,电压不合格，电芯条码" + data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString() + ",电压:" + data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString());
-                            }
-                            if (x != 0)
-                            {
-                                writeTags[tagName + $"\"OCVDATA\".Result[{i}]"] = Convert.ToInt16(2);
-                            }
+                            //mes调用校验库存
                         }
                     }
                     if (!opc.WriteNodes(writeTags))
@@ -209,52 +116,43 @@ namespace DCS.TASKITEM.DataGather
                     _batterylist.Clear();
                     if (opc.ReadNodes(data))
                     {
-                        for (int i = 0; i < 36; i++)
+                        for (int i = 0; i < 48; i++)
                         {
-                            BatteryCoreOcvTestEntity battery = new BatteryCoreOcvTestEntity();
-                            battery.needlenumber = data[tagName + "needlenumber"].ToString();
+                            GCOcvTestEntity battery = new GCOcvTestEntity();
+                            battery.Temperature = Convert.ToSingle(data[tagName + "Temperature"].ToString());
 
-                            battery.BatteryCoreCode = data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString() == null ? "" : data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString();
-                            if (data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString().Length<=5)
+                            battery.BatteryCode = data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString() == null ? "" : data[tagName + $"\"OCVDATA\".BatteryCoreCode[{i}]"].ToString();
+                            if (data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString().Length <= 5)
                             {
                                 int blenth = data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString().Length;
-                                string bvolatge= data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString(); 
-                                for (int j = 0; j < 8-blenth; j++)
+                                string bvolatge = data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString();
+                                for (int j = 0; j < 8 - blenth; j++)
                                 {
                                     bvolatge += "0";
                                 }
-                                battery.OcvVoltage = bvolatge;
+                                battery.OcvVoltage = Convert.ToSingle(bvolatge);
                             }
                             else
                             {
-                                battery.OcvVoltage = data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString();
+                                battery.OcvVoltage = Convert.ToSingle(data[tagName + $"\"OCVDATA\".OcvVoltage[{i}]"].ToString());
                             }
-                           
-                            battery.BatteryState = data[tagName + $"\"OCVDATA\".BatteryState[{i}]"].ToString();
-                            battery.Result = data[tagName + $"\"OCVDATA\".Result[{i}]"].ToString() == "1" ? "ok" : "ng";
-                            for (int j = 0; j < 2; j++)
-                            {
-                                battery.OcvTEMP += data[tagName + $"\"OcvTEMP\"[{j}]"].ToString() + ";";
-                            }
+
+                            battery.LocationCode = data[tagName + $"\"OCVDATA\".LocationCode[{i}]"].ToString();
+                            battery.OcvResult = data[tagName + $"\"OCVDATA\".Result[{i}]"].ToString() == "1" ? "ok" : "ng";
                             _batterylist.Add(battery);
-                            _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "电芯测试数据："+battery.ToJson());
+                            _log.AddUserLog("电芯OCV测试", "电芯OCV测试", "电芯测试数据：" + battery.ToJson());
                         }
                     }
                     short writeResult = -1;
-                    #region 批量插入数据
-                    AddEntityAync(_batterylist);
-                    //foreach (BatteryCoreOcvTestEntity entity in _batterylist)
-                    //{
-                    //    AddEntityAyncBySingle(entity);
-                    //}
-                    //if (aa.IsSuccess)
-                    //{
-                    //    _isOutStation = false;
-                    //}
 
-                    #endregion
+                    #region 批量插入数据
+
+                    AddEntityAync(_batterylist);
+
+                    #endregion 批量插入数据
+
                     dicLst.Clear();
-                    data.Add("Date",DateTime.Now.ToString());
+                    data.Add("Date", DateTime.Now.ToString());
                     dicLst.Add(data);
                     _log.ToCSVData(dicLst, "", "OCV测试");
                     //根据是否出站成功来回写标准位
@@ -297,19 +195,18 @@ namespace DCS.TASKITEM.DataGather
                             _log.AddUserLog("电芯OCV测试", "电芯OCV测试", string.Format("电芯OCV测试标志位写4失败"));
                         }
                     }
-
                 }
             }
-
         }
+
         /// <summary>
         /// 调用webapi插入数据
         /// </summary>
         /// <param name="batteryCoreOcvTestEntity"></param>
         /// <returns></returns>
-        HttpResponseResultModel<BatteryCoreOcvTestEntity> AddEntityAync(List<BatteryCoreOcvTestEntity> batteryCoreOcvTestEntity)
+        private HttpResponseResultModel<GCOcvTestEntity> AddEntityAync(List<GCOcvTestEntity> batteryCoreOcvTestEntity)
         {
-            HttpResponseResultModel<BatteryCoreOcvTestEntity> result = _requestToHttpHelper.PostAsync<BatteryCoreOcvTestEntity>(new HttpRequestModel
+            HttpResponseResultModel<GCOcvTestEntity> result = _requestToHttpHelper.PostAsync<GCOcvTestEntity>(new HttpRequestModel
             {
                 Host = Apihost,
                 Path = "/BatteryCoreOcvTest/InsertBatch",
@@ -318,24 +215,6 @@ namespace DCS.TASKITEM.DataGather
 
             return result;
         }
-
-        /// <summary>
-        /// 调用webapi插入数据
-        /// </summary>
-        /// <param name="batteryCoreOcvTestEntity"></param>
-        /// <returns></returns>
-        HttpResponseResultModel<BatteryCoreOcvTestEntity> AddEntityAyncBySingle(BatteryCoreOcvTestEntity batteryCoreOcvTestEntity)
-        {
-            HttpResponseResultModel<BatteryCoreOcvTestEntity> result = _requestToHttpHelper.PostAsync<BatteryCoreOcvTestEntity>(new HttpRequestModel
-            {
-                Host = Apihost,
-                Path = "/BatteryCoreOcvTest/insert",
-                Data = batteryCoreOcvTestEntity
-            }).Result;
-
-            return result;
-        }
-
 
         /// <summary>
         /// 获取数据
@@ -375,16 +254,13 @@ namespace DCS.TASKITEM.DataGather
             DateTime endtime = DateTime.Now;
             try
             {
-
                 miBatchStartAndGetParameterResponse miResponse = wsService.miBatchStartAndGetParameter(req as miBatchStartAndGetParameter);
                 code = miResponse.@return.code;
                 msg = miResponse.@return.message;
                 endtime = DateTime.Now;
-
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -462,12 +338,10 @@ namespace DCS.TASKITEM.DataGather
             }
 
             return code == 0;
-
         }
 
         public void DoUnInit()
         {
-
         }
     }
 }

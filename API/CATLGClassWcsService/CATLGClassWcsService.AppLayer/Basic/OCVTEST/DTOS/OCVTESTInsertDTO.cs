@@ -1,7 +1,7 @@
 
 
 //使用平台信息: ID:NETCORE_WebApi  描述:NETCORE_WebApi
-//代码版本信息: ID:V3_1  描述:V3_2模块组件(泛型主键),不向前兼容，对应模板V3_2 添加时间:2023/3/20 15:15:43
+//代码版本信息: ID:V3_1  描述:V3_2模块组件(泛型主键),不向前兼容，对应模板V3_2 添加时间:2023/4/6 10:57:28
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +27,14 @@ namespace CATLGClassWcsService.AppLayer.DTOS
         [Description("ocv电压")]
                   [Range(0, float.MaxValue)]
                   public float? OcvVoltage {get;set;}
+        
+          /// <summary>
+        ///  位置编号
+        /// </summary>
+        [Description("位置编号")]
+                  [MinLength(0)]
+                   [MaxLength(50)]
+                  public string LocationCode {get;set;}
         
           /// <summary>
         ///  温度
