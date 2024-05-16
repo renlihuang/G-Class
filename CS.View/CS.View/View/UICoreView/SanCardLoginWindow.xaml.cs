@@ -141,7 +141,7 @@ namespace CS.View.View.UICoreView
             {
                 int interval = Environment.TickCount - _inputTextItem.Timestamp;
                 //小于50MS认为扫描器输入
-                if (interval <= 50)
+                if (interval <= 100)
                 {
                     _inputTextItem = new InputTextItem
                     {

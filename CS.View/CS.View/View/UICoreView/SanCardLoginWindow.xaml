@@ -9,7 +9,10 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
-        Title="SanCardLoginWindow" Height="200" Width="350">
+        Title="SanCardLoginWindow" Height="200" Width="350"
+                        PreviewKeyDown="keyDownText_PreviewKeyDown"
+                       PreviewTextInput="keyDownText_PreviewTextInput"  
+                       InputMethod.IsInputMethodEnabled="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height ="30"/>

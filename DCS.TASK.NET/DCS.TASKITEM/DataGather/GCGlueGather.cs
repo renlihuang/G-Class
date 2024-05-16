@@ -185,6 +185,7 @@ namespace DCS.TASKITEM.DataGather
                         {
                             _log.AddUserLog("BLOCK申请虚拟条码", "BLOCK申请虚拟条码", string.Format("BLOCK申请虚拟条码resul写入失败"));
                         }
+                        _log.AddUserLog("BLOCK申请虚拟条码", "BLOCK申请虚拟条码", "MES触发写入，mes结果：" + writeResult);
                         //标记结束出站
                         _isOutStation = true;
                     }
@@ -200,6 +201,7 @@ namespace DCS.TASKITEM.DataGather
                 }
                 if (PlcFalg == 3)
                 {
+                    _log.AddUserLog("BLOCK申请虚拟条码", "BLOCK申请虚拟条码", "PLC触发3");
                     messfc = "";
 
                     _isOutStation = false;
@@ -211,6 +213,7 @@ namespace DCS.TASKITEM.DataGather
                         {
                             _log.AddUserLog("BLOCK申请虚拟条码", "BLOCK申请虚拟条码", string.Format("BLOCK申请虚拟条码标志位写4失败"));
                         }
+                        _log.AddUserLog("BLOCK申请虚拟条码", "BLOCK申请虚拟条码", "MES触发写入4");
                     }
                 }
             }
